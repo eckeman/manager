@@ -9,7 +9,12 @@ import some from 'lodash/some';
 import uniq from 'lodash/uniq';
 
 import Interface from './interface.class';
-import { INTERFACE_TASK, OLA_PLAN_CODE } from './interfaces.constants';
+import {
+  INTERFACE_TASK,
+  INTERFACE_GROUP_TASK,
+  INTERFACE_UNGROUP_TASK,
+  OLA_PLAN_CODE,
+} from './interfaces.constants';
 
 export default class DedicatedServerInterfacesService {
   /* @ngInject */
@@ -127,30 +132,37 @@ export default class DedicatedServerInterfacesService {
 
   getTasks(serverName) {
     return this.$http
-      .get(`/dedicated/server/${serverName}/task?function=${INTERFACE_TASK}`)
-      .then(
-        (response) => response.data,
-        () => [],
-      )
-      .then((taskIds) => ({
-        promise: this.waitAllTasks(
-          serverName,
-          taskIds.map((taskId) => ({ taskId })),
-        ),
-      }));
+      .get(`/dedicated/server/${serverName}/task`, {
+        headers: {
+          'X-Pagination-Mode': 'CachedObjectList-Pages',
+          'X-Pagination-Size': 5000,
+          'X-Pagination-Filter': `function:in=${INTERFACE_TASK},${INTERFACE_GROUP_TASK},${INTERFACE_UNGROUP_TASK}`,
+        },
+      })
+      .then(({ data }) => data);
+  }
+
+  waitTasks(serverName) {
+    return this.getTasks(serverName).then((tasks) =>
+      this.waitAllTasks(serverName, tasks),
+    );
   }
 
   setPrivateAggregation(serverName, name, interfacesToGroup) {
-    return this.$http.post(`/dedicated/server/${serverName}/ola/aggregation`, {
-      name,
-      virtualNetworkInterfaces: map(interfacesToGroup, 'id'),
-    }).then((task) => this.waitForTask(serverName, task.data.taskId));
+    return this.$http
+      .post(`/dedicated/server/${serverName}/ola/aggregation`, {
+        name,
+        virtualNetworkInterfaces: map(interfacesToGroup, 'id'),
+      })
+      .then((task) => this.waitForTask(serverName, task.data.taskId));
   }
 
   setDefaultInterfaces(serverName, interfaceToUngroup) {
-    return this.$http.post(`/dedicated/server/${serverName}/ola/reset`, {
-      virtualNetworkInterface: interfaceToUngroup.id,
-    }).then((task) => this.waitForTask(serverName, task.data.taskId));
+    return this.$http
+      .post(`/dedicated/server/${serverName}/ola/reset`, {
+        virtualNetworkInterface: interfaceToUngroup.id,
+      })
+      .then((task) => this.waitForTask(serverName, task.data.taskId));
   }
 
   waitForTask(serverName, taskId) {
@@ -176,6 +188,20 @@ export default class DedicatedServerInterfacesService {
         return Promise.reject(error);
       },
     );
+  }
+
+  resetOlaInterfaces(serverName, olaInterfaces) {
+    return this.$q
+      .all(
+        olaInterfaces.map(({ id }) =>
+          this.$http
+            .post(`/dedicated/server/${serverName}/ola/reset`, {
+              virtualNetworkInterface: id,
+            })
+            .then(({ data }) => data),
+        ),
+      )
+      .then((tasks) => this.waitAllTasks(serverName, tasks));
   }
 
   waitAllTasks(serverName, tasks) {
