@@ -42,6 +42,7 @@ export default class {
     HostingIndy,
     HostingOvhConfig,
     HostingTask,
+    HostingCdnSharedService,
     logs,
     pendingTasks,
     PrivateDatabase,
@@ -80,6 +81,7 @@ export default class {
     this.HostingIndy = HostingIndy;
     this.HostingOvhConfig = HostingOvhConfig;
     this.HostingTask = HostingTask;
+    this.HostingCdnSharedService = HostingCdnSharedService;
     this.pendingTasks = pendingTasks;
     this.PrivateDatabase = PrivateDatabase;
     this.privateDatabasesDetachable = privateDatabasesDetachable;
@@ -748,7 +750,6 @@ export default class {
         this.$scope.sshUrl = `ssh://${hostingProxy.serviceManagementAccess.ssh.url}:${hostingProxy.serviceManagementAccess.ssh.port}/`;
         this.$scope.urls.hosting = hostingUrl;
         this.$scope.urlDomainOrder = domainOrderUrl;
-
         return this.User.getUrlOf('guides');
       })
       .then((guides) => {
@@ -817,6 +818,8 @@ export default class {
         this.Alerter.error(err);
       })
       .then(() => this.handlePrivateDatabases())
+      .then(() => this.handleCDNProperties())
+      .then(() => this.handleUserSubsidiary())
       .finally(() => {
         this.$scope.loadingHostingInformations = false;
       });
@@ -826,6 +829,19 @@ export default class {
     return this.getPrivateDatabases().then((privateDatabases) => {
       this.$scope.privateDatabases = privateDatabases;
     });
+  }
+
+  handleCDNProperties() {
+    return this.HostingCdnSharedService.getCDNProperties(
+      this.$scope.hosting.serviceName,
+    )
+      .then((cdn) => {
+        this.$scope.cdnProperties = cdn;
+      })
+      .catch((err) => {
+        this.Alerter.error(err);
+        this.$scope.cdnProperties = null;
+      });
   }
 
   setSelectedTab(tab) {
@@ -845,6 +861,12 @@ export default class {
       this.selectedTab = this.defaultTab;
     }
     this.$location.search('tab', this.selectedTab);
+  }
+
+  handleUserSubsidiary() {
+    return this.User.getUser().then(({ ovhSubsidiary }) => {
+      this.$scope.ovhSubsidiary = ovhSubsidiary;
+    });
   }
 
   static toKebabCase(str) {
