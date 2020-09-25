@@ -27,6 +27,7 @@ export default {
     orderVmwareOption: '<',
     productId: '<',
     setMessage: '<',
+    trackingPrefix: '<',
   },
   template,
 };

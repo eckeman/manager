@@ -216,6 +216,7 @@ export default /* @ngInject */ ($stateProvider, $urlServiceProvider) => {
       ) => {
         Alerter.set(`alert-${type}`, message, null, 'dedicatedCloud');
       },
+      trackingPrefix: () => 'dedicated::dedicatedClouds',
       usesLegacyOrder: /* @ngInject */ (currentService) =>
         currentService.usesLegacyOrder,
     },
