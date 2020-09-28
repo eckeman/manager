@@ -26,7 +26,7 @@
     "@ovh-ux/manager-metrics": "^0.0.0 || ^0.1.0",
     "@ovh-ux/manager-server-sidebar": "^1.0.0",
     "@ovh-ux/ng-ovh-api-wrappers": "^4.0.4",
-    "@ovh-ux/ng-ovh-cloud-universe-components": "^1.7.2",
+    "@ovh-ux/ng-ovh-cloud-universe-components": "^2.0.0",
     "@ovh-ux/ng-ovh-doc-url": "^1.0.0",
     "@ovh-ux/ng-ovh-form-flat": "^4.0.3",
     "@ovh-ux/ng-ovh-http": "^4.0.4",
