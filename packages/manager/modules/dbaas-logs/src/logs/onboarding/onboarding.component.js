@@ -1,5 +1,5 @@
-import controller from './logs-list.controller';
-import template from './logs-list.html';
+import controller from './onboarding.controller';
+import template from './onboarding.html';
 
 export default {
   bindings: {

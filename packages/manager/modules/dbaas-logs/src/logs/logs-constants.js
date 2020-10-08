@@ -1,5 +1,6 @@
 export default {
   LDP_PLAN_CODE: 'logs-account',
+  LDP_PLAN_CODE_ENTERPRISE: 'logs-enterprise',
   COLDSTORAGE: 'COLDSTORAGE',
   DESCRIPTION_MIN_LENGTH: 3,
   EXPOSED_PORT_MIN: 514,

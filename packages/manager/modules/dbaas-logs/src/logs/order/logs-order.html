@@ -1,0 +1,165 @@
+<div class="row p-4">
+    <div id="order-messages-anchor"></div>
+    <div class="col-lg-8 p-4">
+        <div class="mb-4">
+            <oui-message
+                ng-if="$ctrl.orderSucceed && $ctrl.selectedOffer === $ctrl.LogsConstants.LDP_PLAN_CODE"
+                type="success"
+            >
+                <span
+                    class="oui-message__icon oui-icon oui-icon-success-circle"
+                    aria-hidden="true"
+                ></span>
+                <p
+                    class="oui-message__body"
+                    data-translate="logs_order_standard_success"
+                ></p>
+            </oui-message>
+            <oui-message
+                ng-if="$ctrl.orderSucceed && $ctrl.selectedOffer === $ctrl.LogsConstants.LDP_PLAN_CODE_ENTERPRISE"
+                type="success"
+            >
+                <span
+                    class="oui-message__icon oui-icon oui-icon-success-circle"
+                    aria-hidden="true"
+                ></span>
+                <p
+                    class="oui-message__body"
+                    data-translate="logs_order_entreprise_success"
+                ></p>
+            </oui-message>
+            <oui-message ng-if="$ctrl.orderError" type="error">
+                <span data-translate="logs_order_default_error"></span>
+            </oui-message>
+        </div>
+        <ovh-manager-product-offers
+            workflow-type="'order'"
+            workflow-options=":: $ctrl.workflowOptions"
+            pricing-type="'renew'"
+            user=":: $ctrl.me"
+            on-error=":: $ctrl.onOrderFail(error)"
+            on-success=":: $ctrl.onOrderSucceed(checkout)"
+            send-current-state=":: $ctrl.getOrderState(state)"
+        >
+            <oui-step-form
+                name="logs_order_selection"
+                header="{{::'logs_order_selection_title' | translate}}"
+                description="{{::'logs_order_selection_subtitle' | translate}}"
+                valid="$ctrl.selectedOffer"
+                on-submit="$ctrl.onSubmitOffer"
+                prevent-next
+            >
+                <div class="row align-items-baseline">
+                    <oui-select-picker
+                        class="mb-3 col-md-5"
+                        name="logsStandardOffer"
+                        model="$ctrl.selectedOffer"
+                        label="{{::'logs_order_selection_details_standard_title' | translate}}"
+                        values="[$ctrl.LogsConstants.LDP_PLAN_CODE]"
+                        on-change="$ctrl.selectOffer($ctrl.LogsConstants.LDP_PLAN_CODE)"
+                    >
+                        <oui-select-picker-section>
+                            <span
+                                data-translate="logs_order_selection_details_standard_description"
+                            />
+                            <ul>
+                                <li
+                                    data-translate="logs_order_selection_details_standard_description_1"
+                                ></li>
+                                <li
+                                    data-translate="logs_order_selection_details_standard_description_2"
+                                ></li>
+                                <li
+                                    data-translate="logs_order_selection_details_standard_description_3"
+                                ></li>
+                                <li
+                                    data-translate="logs_order_selection_details_standard_description_4"
+                                ></li>
+                                <li
+                                    data-translate="logs_order_selection_details_standard_description_5"
+                                ></li>
+                                <li
+                                    data-translate="logs_order_selection_details_standard_description_6"
+                                ></li>
+                            </ul>
+                        </oui-select-picker-section>
+                        <oui-select-picker-footer>
+                            <p
+                                class="font-weight-bold m-0"
+                                data-translate="logs_order_selection_details_standard_price"
+                                data-translate-values="{ price: $ctrl.formattedPrice.standardPlanPrice.FirstStep }"
+                            ></p>
+                            <p
+                                class="m-0"
+                                data-translate="logs_order_selection_details_standard_price_ext"
+                                data-translate-values="{ price: $ctrl.formattedPrice.standardPlanPrice.SecondStep }"
+                            ></p>
+                        </oui-select-picker-footer>
+                    </oui-select-picker>
+
+                    <oui-select-picker
+                        class="mb-3 col-md-5"
+                        name="logsEnterpriseOffer"
+                        model="$ctrl.selectedOffer"
+                        label="{{::'logs_order_selection_details_enterprise_title' | translate}}"
+                        values="[$ctrl.LogsConstants.LDP_PLAN_CODE_ENTERPRISE]"
+                        on-change="$ctrl.selectOffer($ctrl.LogsConstants.LDP_PLAN_CODE_ENTERPRISE)"
+                    >
+                        <oui-select-picker-section>
+                            <span
+                                data-translate="logs_order_selection_details_enterprise_description"
+                            />
+                            <ul>
+                                <li
+                                    data-translate="logs_order_selection_details_enterprise_description_1"
+                                ></li>
+                                <li
+                                    data-translate="logs_order_selection_details_enterprise_description_2"
+                                ></li>
+                                <li
+                                    data-translate="logs_order_selection_details_enterprise_description_3"
+                                ></li>
+                            </ul>
+                        </oui-select-picker-section>
+                        <oui-select-picker-footer>
+                            <p
+                                class="font-weight-bold d-block m-0"
+                                data-translate="logs_order_selection_details_enterprise_price"
+                                data-translate-values="{ price: $ctrl.formattedPrice.enterprisePlanPrice.subscription }"
+                            ></p>
+                            <p
+                                class="m-0"
+                                data-translate="logs_order_selection_details_enterprise_subtitle"
+                                data-translate-values="{ price: $ctrl.formattedPrice.enterprisePlanPrice.installation }"
+                            ></p>
+                        </oui-select-picker-footer>
+                    </oui-select-picker>
+                </div>
+            </oui-step-form>
+            <oui-step-form
+                name="logs_order_location"
+                header="{{::'logs_order_location_title' | translate}}"
+                description="{{::'logs_order_selection_subtitle' | translate}}"
+                skippable="false"
+                on-submit="$ctrl.onSubmitLocation()"
+                valid="$ctrl.selectedDatacenter"
+                prevent-next
+            >
+                <div class="row align-items-baseline">
+                    <oui-select-picker
+                        data-ng-repeat="region in $ctrl.regions"
+                        class="mb-3 col-md-5"
+                        name="ouiSelectPicker1"
+                        model="$ctrl.selectedDatacenter"
+                        label="{{:: 'label-' + region | translate}}"
+                        values="[region]"
+                    >
+                        <oui-select-picker-section class="text-uppercase"
+                            ><span data-ng-bind="region"></span
+                        ></oui-select-picker-section>
+                    </oui-select-picker>
+                </div>
+            </oui-step-form>
+        </ovh-manager-product-offers>
+    </div>
+</div>

@@ -1,10 +1,7 @@
-import reduce from 'lodash/reduce';
-import grafana from '../../assets/grafana.png';
-import graylog from '../../assets/graylog.png';
-import kibana from '../../assets/kibana.png';
-import { GUIDES } from './logs-welcome.constants';
+import { GUIDES } from './onboarding.constants';
+import illustration from './assets/LDP-Overview-hero@2x.png';
 
-export default class LogsWelcomeCtrl {
+export default class LogsOnboardingCtrl {
   /* @ngInject */
   constructor(
     $state,
@@ -16,6 +13,7 @@ export default class LogsWelcomeCtrl {
     atInternet,
   ) {
     this.$translate = $translate;
+    this.illustration = illustration;
     this.$state = $state;
     this.atInternet = atInternet;
     this.region = coreConfig.getRegion();
@@ -23,23 +21,16 @@ export default class LogsWelcomeCtrl {
     this.CucOrderHelperService = CucOrderHelperService;
     this.ovhDocUrl = ovhDocUrl;
     this.urls = {};
-
-    this.assets = {
-      grafana,
-      graylog,
-      kibana,
-    };
   }
 
   $onInit() {
-    this.guides = reduce(
-      GUIDES,
+    this.guides = GUIDES.reduce(
       (list, guide) => [
         ...list,
         {
           ...guide,
           title: this.$translate.instant(
-            `logs_welcome_guides_${guide.id}_title`,
+            `logs_onboarding_guides_${guide.id}_title`,
           ),
           description: '',
         },
@@ -49,16 +40,6 @@ export default class LogsWelcomeCtrl {
 
     this.urls.docsUrl = this.ovhDocUrl.getDocUrl(
       this.LogsConstants.LOGS_DOCS_NAME,
-    );
-    this.CucOrderHelperService.buildUrl(
-      this.LogsConstants.LOGS_PRODUCT_URL,
-    ).then((url) => {
-      this.urls.productURL = url;
-    });
-    this.CucOrderHelperService.buildUrl(this.LogsConstants.ORDER_URL).then(
-      (url) => {
-        this.urls.orderURL = url;
-      },
     );
   }
 
@@ -71,7 +52,7 @@ export default class LogsWelcomeCtrl {
 
   onSubmitClick() {
     this.atInternet.trackClick({
-      name: 'cloud::dbaas::logs::onboarding::suscribe',
+      name: 'dbaas::logs::onboarding::order',
       type: 'action',
     });
   }

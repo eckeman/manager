@@ -240,6 +240,8 @@ export const METRICS_CONFIG = {
 export const LOGS_CONFIG = {
   id: 'logs',
   loadOnState: 'dbaas-logs',
+  state: 'dbaas-logs.onboarding',
+  stateUrl: '#/dbaas/logs/onboarding',
   types: [
     {
       path: '/dbaas/logs',

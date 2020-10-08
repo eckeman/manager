@@ -13,6 +13,7 @@ export default /* @ngInject */ ($stateProvider) => {
           .get('/me')
           .then(({ data }) => data)
           .catch(() => {}),
+      orderLink: /* @ngInject */ ($state) => $state.href('dbaas-logs.order'),
     },
   });
 };
