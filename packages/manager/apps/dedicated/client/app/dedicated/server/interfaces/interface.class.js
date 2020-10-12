@@ -42,7 +42,7 @@ export default class Interface {
   }
 
   setVrack(vrack) {
-    return this.vrack = vrack;
+    this.vrack = vrack;
   }
 
   isTaskInProgress() {
