@@ -1,5 +1,6 @@
 import find from 'lodash/find';
 import filter from 'lodash/filter';
+import forOwn from 'lodash/forOwn';
 import get from 'lodash/get';
 import map from 'lodash/map';
 import orderBy from 'lodash/orderBy';
@@ -286,6 +287,16 @@ angular
             $scope.loading.table = false;
           });
       }
+
+      $scope.getIpVirtualMac = function getIpVirtualMac(ipBlock, ip) {
+        const result = [];
+        forOwn(get(ipBlock, 'virtualMac.virtualMacs'), (mac, ips) => {
+          if (ips.include(ip)) {
+            result.push(mac);
+          }
+        });
+        return result;
+      };
 
       $scope.getVirtualMacMessage = function getVirtualMacMessage(ipBlock) {
         if (ipBlock.service && ipBlock.service.category) {

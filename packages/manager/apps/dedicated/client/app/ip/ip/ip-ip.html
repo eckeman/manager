@@ -476,28 +476,26 @@
 
                         <!-- VMAC -->
                         <td>
-                            <div
-                                data-ng-if="!ipBlock.service.loading.virtualmac && ipBlock.type==='FAILOVER'"
+                            <span
+                                data-ng-if="ipBlock.virtualmac.status === 'OK'"
+                                data-ng-bind="getIpVirtualMac(ipBlock, ip) || '-'"
                             >
-                                <span
-                                    data-ng-if="ipBlock.service.virtualmac.status === 'OK'"
-                                    data-ng-bind="ipBlock.service.virtualmac.virtualMacsByIp[ip.ip] || '-'"
-                                >
-                                </span>
-                                <span
-                                    class="badge"
-                                    data-ng-if="ipBlock.service.virtualmac.status === 'PENDING'"
-                                    data-translate="ip_taskpending_label"
-                                    data-oui-tooltip="{{:: 'ip_manage_task_pending' | translate }}"
-                                    data-oui-tooltip-placement="top"
-                                >
-                                </span>
-                            </div>
+                            </span>
+                            <span
+                                class="badge"
+                                data-ng-if="ipBlock.virtualmac.status === 'PENDING'"
+                                data-translate="ip_taskpending_label"
+                                data-oui-tooltip="{{:: 'ip_manage_task_pending' | translate }}"
+                                data-oui-tooltip-placement="top"
+                            >
+                            </span>
+                            <!--
                             <oui-spinner
                                 size="s"
                                 data-ng-if="ipBlock.service.loading.virtualmac && ipBlock.type==='FAILOVER'"
                             >
                             </oui-spinner>
+                            -->
                         </td>
 
                         <!-- Mitigation -->
