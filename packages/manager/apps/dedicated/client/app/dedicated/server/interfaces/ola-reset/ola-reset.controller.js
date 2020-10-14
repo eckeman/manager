@@ -23,7 +23,7 @@ export default class {
       .then(() => {
         this.PhysicalInterface.v6().resetCache();
         this.VirtualInterface.v6().resetCache();
-        this.goBack();
+        this.goBack(true);
       })
       .catch((error) => {
         this.goBack().then(() =>

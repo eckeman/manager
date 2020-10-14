@@ -19,8 +19,8 @@ export default /* @ngInject */ ($stateProvider) => {
       });
     },
     resolve: {
-      goBack: /* @ngInject */ ($state) => () =>
-        $state.go('app.dedicated.server.interfaces'),
+      goBack: /* @ngInject */ ($state) => (reload = false) =>
+        $state.go('app.dedicated.server.interfaces', {}, { reload }),
     },
   });
 };
