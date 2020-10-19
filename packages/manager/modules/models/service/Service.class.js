@@ -19,4 +19,12 @@ export default class Service {
   get path() {
     return this.route.url;
   }
+
+  get productType() {
+    return this.route.path
+      .replace(/{.*}/, '')
+      .split('/')
+      .filter((item) => !!item)
+      .join('_');
+  }
 }
