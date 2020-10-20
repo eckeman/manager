@@ -58,6 +58,11 @@
         <!-- /Service in manual renew  -->
     </div>
 
+    <!-- TODO: Add commitment management depending on use case -->
+    <oui-action-menu-item href="{{:: $ctrl.commitmentLink }}">
+        <span data-translate="billing_services_actions_menu_commit"></span>
+    </oui-action-menu-item>
+
     <!-- Exchange -->
     <div data-ng-if="$ctrl.service.serviceType === $ctrl.SERVICE_TYPE.EXCHANGE">
         <oui-action-menu-item

@@ -7,6 +7,7 @@ import 'angular-translate';
 import '@ovh-ux/ui-kit';
 
 import advancedFeatures from './advanced-features';
+import commitment from './commitment';
 
 import component from './dashboard.component';
 import routing from './dashboard.routing';
@@ -16,6 +17,7 @@ const moduleName = 'ovhManagerDedicatedServerDashboard';
 angular
   .module(moduleName, [
     advancedFeatures,
+    commitment,
     atInternet,
     'oui',
     'pascalprecht.translate',
