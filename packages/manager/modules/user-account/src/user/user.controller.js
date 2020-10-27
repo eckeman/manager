@@ -31,6 +31,7 @@ export default class UserAccountCtrl {
         } else {
           this.$scope.stepPath = `${this.USERACCOUNT_BASE_URL}${this.$scope.currentAction}.html`;
         }
+        console.log(this.$scope.stepPath);
         $('#currentAction').modal({
           keyboard: true,
           backdrop: 'static',

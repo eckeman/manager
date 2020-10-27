@@ -14,6 +14,7 @@ export default class UserAccountInfosCtrl {
     Alerter,
     coreConfig,
   ) {
+    console.log('user account info controller');
     /* Be carefull, a part of this controller is url driven.
      * See the bottom of this file for more detail */
     let searchParams;
@@ -64,25 +65,23 @@ export default class UserAccountInfosCtrl {
 
       promise
         .then((fieldNames) =>
-          UserAccountServiceInfos.getUserAccountServiceInfos().then(
-            (response) => {
-              // pick attributes that belong to /rules
-              // add customer code since it will be displayed in the form
-              $scope.user = pick(response, fieldNames.concat('customerCode'));
+          UserAccountServiceInfos.getUseraccountInfos().then((response) => {
+            // pick attributes that belong to /rules
+            // add customer code since it will be displayed in the form
+            $scope.user = pick(response, fieldNames.concat('customerCode'));
 
-              // remove empty attributes
-              $scope.user = pickBy($scope.user, identity);
+            // remove empty attributes
+            $scope.user = pickBy($scope.user, identity);
 
-              // juste in case birthday date is retrieved in legacy format
-              // we nullify it so we don't break the first call to /rules
-              if (
-                !moment($scope.user.birthDay, 'YYYY-MM-DD').isValid() ||
-                /\//.test($scope.user.birthDay)
-              ) {
-                delete $scope.user.birthDay;
-              }
-            },
-          ),
+            // juste in case birthday date is retrieved in legacy format
+            // we nullify it so we don't break the first call to /rules
+            if (
+              !moment($scope.user.birthDay, 'YYYY-MM-DD').isValid() ||
+              /\//.test($scope.user.birthDay)
+            ) {
+              delete $scope.user.birthDay;
+            }
+          }),
         )
         .catch((err) => {
           Alerter.alertFromSWS(

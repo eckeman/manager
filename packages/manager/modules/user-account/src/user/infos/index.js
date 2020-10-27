@@ -10,6 +10,7 @@ import 'angular-ui-bootstrap';
 
 import routing from './user-infos.routing';
 import service from './user-infos.service';
+import newAccountFormModule from '../components/newAccountForm';
 
 const moduleName = 'ovhManagerDedicatedAccountUserInfos';
 
@@ -21,6 +22,7 @@ angular
     'pascalprecht.translate',
     'ui.bootstrap',
     'ui.router',
+    newAccountFormModule,
   ])
   .config(routing)
   .service('UserAccountServiceInfos', service)
