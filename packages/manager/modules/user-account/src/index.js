@@ -4,10 +4,10 @@ import '@ovh-ux/manager-core';
 import '@uirouter/angularjs';
 import 'angular-translate';
 import '@ovh-ux/ng-at-internet';
+import 'angular-ui-bootstrap';
 
 import '@ovh-ux/ui-kit';
 import '@ovh-ux/ui-kit/dist/css/oui.css';
-import 'angular-ui-bootstrap';
 
 import './css/source.less';
 // import './otrs/otrs-controllers.module';
@@ -21,6 +21,7 @@ import './css/source.less';
 // import './account/user/newAccountForm/new-account-form.module';
 // import './account/user/support-level/support-level.module';
 import ngOvhDedicatedUniverseComponents from '@ovh-ux/ng-ovh-dedicated-universe-components';
+import ngPaginationFront from '@ovh-ux/ng-pagination-front';
 
 import ngOvhUtils from '@ovh-ux/ng-ovh-utils';
 import ngOvhOtrs from '@ovh-ux/ng-ovh-otrs';
@@ -35,6 +36,7 @@ angular
   .module(moduleName, [
     ngOvhOtrs,
     ngOvhUtils,
+    ngPaginationFront,
     'ngAtInternet',
     'ovhManagerCore',
     'pascalprecht.translate',

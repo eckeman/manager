@@ -5,14 +5,11 @@ import '@uirouter/angularjs';
 import 'angular-translate';
 
 import '@ovh-ux/ui-kit';
-import '@ovh-ux/ui-kit/dist/css/oui.css';
-import 'angular-ui-bootstrap';
 
-import routing from './user-infos.routing';
-import service from './user-infos.service';
-import newAccountFormModule from '../components/newAccountForm';
+import routing from './user-emails.routing';
+import service from './user-emails.service';
 
-const moduleName = 'ovhManagerDedicatedAccountUserInfos';
+const moduleName = 'ovhManagerDedicatedAccountUserEmails';
 
 angular
   .module(moduleName, [
@@ -21,10 +18,9 @@ angular
     'pascalprecht.translate',
     'ui.bootstrap',
     'ui.router',
-    newAccountFormModule,
   ])
   .config(routing)
-  .service('UserAccountServiceInfos', service)
+  .service('UserAccountEmailsService', service)
   .run(/* @ngTranslationsInject:json ./translations */);
 
 export default moduleName;

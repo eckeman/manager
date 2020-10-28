@@ -14,7 +14,6 @@ export default class UserAccountInfosCtrl {
     Alerter,
     coreConfig,
   ) {
-    console.log('user account info controller');
     /* Be carefull, a part of this controller is url driven.
      * See the bottom of this file for more detail */
     let searchParams;
