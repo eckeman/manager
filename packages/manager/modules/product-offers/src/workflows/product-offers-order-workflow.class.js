@@ -5,7 +5,10 @@ import isString from 'lodash/isString';
 
 import Workflow from './product-offers-workflow.class';
 
-import { CATALOG_ITEM_TYPE_NAMES } from './product-offers-workflow.constants';
+import {
+  CATALOG_ITEM_TYPE_NAMES,
+  CHECKOUT_DETAILS_TYPE,
+} from './product-offers-workflow.constants';
 
 /**
  * Workflow Class to handle option order
@@ -24,6 +27,7 @@ export default class OrderWorkflow extends Workflow {
    *  - {serviceNameToAddProduct}: Service name of which we will add product/addon.
    *  If set, the order will consist to add option to an existing service.
    *  If null, the order concerns an new product.
+   *  - {hideTarification}: hide tarification step
    *  - {getPlanCode}:
    *  method to get the planCode to use. Allows you to set the planCode after the component has been
    *  created.
@@ -111,7 +115,9 @@ export default class OrderWorkflow extends Workflow {
     this.pricings = this.computePricing(catalogPricings);
 
     if (this.hasUniquePricing()) {
-      this.currentIndex += 1;
+      if (!this.hideTarification) {
+        this.currentIndex += 1;
+      }
       [this.pricing] = this.pricings;
     }
   }
@@ -136,6 +142,9 @@ export default class OrderWorkflow extends Workflow {
    */
   getValidationInformation() {
     this.updateLoadingStatus('getOfferValidationInformation');
+    if (this.hideTarification) {
+      this.getPricings();
+    }
     const pricing = this.pricing || this.pricings[0];
 
     const configuration = isFunction(this.onGetConfiguration)
@@ -190,6 +199,26 @@ export default class OrderWorkflow extends Workflow {
         );
         this.contracts = contracts;
         this.prices = prices;
+        this.subscriptionsDetails = details.filter(
+          (subscription) =>
+            subscription.detailType === CHECKOUT_DETAILS_TYPE.DURATION,
+        );
+        const subscriptionsTotal =
+          this.subscriptionsDetails.reduce(
+            (result, subscription) => result + subscription.totalPrice.value,
+            0,
+          ) / this.pricing.interval;
+        this.subscriptionsTotal = `${subscriptionsTotal} ${this.user.currency.symbol}`;
+
+        this.installationDetails = details.filter(
+          (subscription) =>
+            subscription.detailType === CHECKOUT_DETAILS_TYPE.INSTALLATION,
+        );
+        const installationTotal = this.installationDetails.reduce(
+          (result, detail) => result + detail.totalPrice.value,
+          0,
+        );
+        this.installationTotal = `${installationTotal} ${this.user.currency.symbol}`;
       })
       .catch((error) =>
         !this.onError || this.onError({ error }) === false

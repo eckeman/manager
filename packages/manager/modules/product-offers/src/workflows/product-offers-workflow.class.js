@@ -1,5 +1,6 @@
 import isEqual from 'lodash/isEqual';
 import some from 'lodash/some';
+import get from 'lodash/get';
 import sortBy from 'lodash/sortBy';
 
 import { convertLanguageFromOVHToBCP47 } from '@ovh-ux/manager-config';
@@ -7,7 +8,10 @@ import { convertLanguageFromOVHToBCP47 } from '@ovh-ux/manager-config';
 import Pricing from '../pricing/pricing.class';
 import ProductOffersService from '../services/product-offers.service';
 
-import { CHECKOUT_DETAILS_TYPE } from './product-offers-workflow.constants';
+import {
+  CHECKOUT_DETAILS_TYPE,
+  ADDONS_TYPE,
+} from './product-offers-workflow.constants';
 import { PRICING_CAPACITIES } from '../pricing/pricing.constants';
 
 /**
@@ -77,6 +81,37 @@ export default class Workflow {
    */
   hasUniquePricing() {
     return this.pricings && this.pricings.length === 1;
+  }
+
+  /**
+   * Determines if the offer has a pay-as-you-go option
+   * @return {boolean}
+   */
+  hasComsuptionOption() {
+    const addonFamilies = get(
+      this.catalog[this.catalogItemTypeName].find(
+        ({ planCode }) => planCode === this.getPlanCode(),
+      ),
+      'addonFamilies',
+    );
+    if (!addonFamilies) {
+      return false;
+    }
+    const addonNew = addonFamilies.find(
+      (addon) => addon.name === ADDONS_TYPE.NEW,
+    );
+    if (!addonNew) {
+      return false;
+    }
+    const addons = addonNew.addons.reduce((result, addonName) => {
+      result.push(
+        this.catalog.addons.find((addon) => addon.planCode === addonName),
+      );
+      return result;
+    }, []);
+    return addons.some(({ pricings }) =>
+      pricings.some(({ type }) => type === ADDONS_TYPE.COMSUPTION),
+    );
   }
 
   /**

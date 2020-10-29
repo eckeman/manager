@@ -6,6 +6,5 @@ export default {
     orderLink: '<',
   },
   controller,
-  controllerAs: 'ctrl',
   template,
 };

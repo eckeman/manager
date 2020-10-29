@@ -18,9 +18,12 @@
   "ovh_product_offers_confirmation_pay": "Payer",
   "ovh_product_offers_confirmation_activate": "Activer",
 
-  "ovh_product_offers_total_price_without_tax": "Prix HT :",
-  "ovh_product_offers_total_price_with_tax": "Prix TTC :",
-  "ovh_product_offers_duration": "Durée :",
+  "ovh_product_offers_total_installation_price": "Frais d'installation :",
+  "ovh_product_offers_total_subscription_price": "Abonnement :",
+  "ovh_product_offers_total_price_without_tax": "Total HT :",
+  "ovh_product_offers_total_price_with_tax": "Total TTC :",
+  "ovh_product_offers_duration": "Durée :",
   "ovh_product_offers_duration_prorata_up_to": "Prorata jusqu'au:",
-  "ovh_product_offers_detach_termination": "L'option {{option}} expirera en {{date}}"
+  "ovh_product_offers_detach_termination": "L'option {{option}} expirera en {{date}}",
+  "ovh_product_offer_comsuption_alert": "Les prélèvements seront effectués mensuellement si vous avez entré un moyen de paiement par défaut ou sous forme de facture à payer en fin de mois dans votre onglet facture si vous n’en avez pas."
 }

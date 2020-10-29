@@ -46,6 +46,7 @@ export default class LogsOrderCtrl {
           },
         ];
       },
+      hideTarification: true,
     };
     this.standardPlanPrice = {
       FirstStep: { price: '' },
