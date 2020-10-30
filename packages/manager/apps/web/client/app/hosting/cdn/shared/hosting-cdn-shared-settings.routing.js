@@ -22,7 +22,10 @@ export default /* @ngInject */ ($stateProvider) => {
         serviceName,
         domainName,
       ) =>
-        HostingCdnSharedService.getCDNDomainsOptions(serviceName, domainName),
+        HostingCdnSharedService.getCDNDomainsOptions(
+          serviceName,
+          domainName,
+        ).then(({ data }) => data),
 
       displayCreateCacheRuleModal: /* @ngInject */ ($state) => (params) =>
         $state.go('app.hosting.cdn.shared.addCacheRule', params),

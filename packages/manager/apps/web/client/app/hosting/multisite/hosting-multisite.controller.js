@@ -66,7 +66,7 @@ angular
           .then((domains) => {
             return HostingCdnSharedService.getSharedCDNDomains(
               $scope.hosting.serviceName,
-            ).then((sharedDomains) => {
+            ).then(({ data: sharedDomains }) => {
               return { domains, sharedDomains };
             });
           })

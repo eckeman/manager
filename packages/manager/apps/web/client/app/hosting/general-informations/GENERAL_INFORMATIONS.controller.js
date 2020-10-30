@@ -46,7 +46,6 @@ export default class HostingGeneralInformationsCtrl {
     this.serviceName = this.$stateParams.productId;
     this.defaultRuntime = null;
     this.availableOffers = [];
-    console.log('ZM:: uSub', this.userSubsidiary);
     this.contactManagementLink = this.RedirectionService.getURL(
       'contactManagement',
       { serviceName: this.serviceName, category: 'HOSTING' },

@@ -61,7 +61,7 @@ export default /* @ngInject */ ($stateProvider) => {
       goBack,
     ) => {
       return HostingCdnSharedService.getCDNProperties(serviceName)
-        .then((cdn) => {
+        .then(({ data: cdn }) => {
           if (cdn.version === HOSTING_CDN_ORDER_CDN_VERSION_V2) return goBack();
           return cdn;
         })
@@ -168,33 +168,33 @@ export default /* @ngInject */ ($stateProvider) => {
         const cartId = await HostingCdnOrderService.prepareOrderCart(
           user.ovhSubsidiary,
         );
-        const servInfo = await HostingCdnSharedService.getServiceInfo(
+        const { data: servInfo } = await HostingCdnSharedService.getServiceInfo(
           serviceName,
         );
-        const servOpts = await HostingCdnSharedService.getServiceOptions(
-          servInfo.serviceId,
-        );
+        const {
+          data: servOpts,
+        } = await HostingCdnSharedService.getServiceOptions(servInfo.serviceId);
         const { serviceId } = find(
           servOpts,
           ({ billing }) =>
             billing.plan.code.match('^cdn') &&
             billing.plan.code.match('_business$'),
         );
-        const addonPlans = await HostingCdnSharedService.getCatalogAddonsPlan(
-          serviceId,
-        );
-        const addonPlan = find(addonPlans, ({ planCode }) =>
+        const {
+          data: addonPlans,
+        } = await HostingCdnSharedService.getCatalogAddonsPlan(serviceId);
+        const { data: addonPlan } = find(addonPlans, ({ planCode }) =>
           includes(['cdn_basic', 'cdn-basic-free'], planCode),
         );
 
-        const { order } = await HostingCdnOrderService.simulateCartForUpgrade(
+        const { data } = await HostingCdnOrderService.simulateCartForUpgrade(
           cartId,
           serviceName,
           addonPlan,
           serviceId,
         );
 
-        return { cart: order, cartId, addonPlan, serviceId };
+        return { cart: data.order, cartId, addonPlan, serviceId };
       } catch (error) {
         goBackWithError(get(error, 'data.message', error));
         return {};

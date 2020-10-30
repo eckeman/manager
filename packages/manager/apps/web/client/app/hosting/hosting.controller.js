@@ -835,7 +835,7 @@ export default class {
     return this.HostingCdnSharedService.getCDNProperties(
       this.$scope.hosting.serviceName,
     )
-      .then((cdn) => {
+      .then(({ data: cdn }) => {
         this.$scope.cdnProperties = cdn;
       })
       .catch((err) => {

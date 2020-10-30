@@ -37,7 +37,6 @@ export default class CdnSharedSettingsController {
   }
 
   $onInit() {
-    this.loading = { init: false };
     this.model = {
       alwaysOnline: {
         enabled: true,
@@ -73,7 +72,6 @@ export default class CdnSharedSettingsController {
       { changed: false },
     );
     this.model.rulesName = map(this.model.rules, (r) => r.name);
-    this.loading.init = true;
   }
 
   getSwitchBtnStatusText(switchBtn) {

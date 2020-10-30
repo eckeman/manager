@@ -3,9 +3,8 @@ import find from 'lodash/find';
 
 export default class HostingCdnSharedService {
   /* @ngInject */
-  constructor($http, OvhHttp) {
+  constructor($http) {
     this.$http = $http;
-    this.OvhHttp = OvhHttp;
   }
 
   /**
@@ -14,9 +13,7 @@ export default class HostingCdnSharedService {
    * @returns {*}:
    */
   getCDNProperties(serviceName) {
-    return this.OvhHttp.get(`/hosting/web/${serviceName}/cdn`, {
-      rootPath: 'apiv6',
-    });
+    return this.$http.get(`/hosting/web/${serviceName}/cdn`);
   }
 
   /**
@@ -25,12 +22,7 @@ export default class HostingCdnSharedService {
    * @returns {*}:
    */
   getSharedCDNAvailableOptions(serviceName) {
-    return this.OvhHttp.get(
-      `/hosting/web/${serviceName}/cdn/availableOptions`,
-      {
-        rootPath: 'apiv6',
-      },
-    );
+    return this.$http.get(`/hosting/web/${serviceName}/cdn/availableOptions`);
   }
 
   /**
@@ -39,9 +31,7 @@ export default class HostingCdnSharedService {
    * @returns {*}:
    */
   getSharedCDNDomains(serviceName) {
-    return this.OvhHttp.get(`/hosting/web/${serviceName}/cdn/domain`, {
-      rootPath: 'apiv6',
-    });
+    return this.$http.get(`/hosting/web/${serviceName}/cdn/domain`);
   }
 
   /**
@@ -51,11 +41,8 @@ export default class HostingCdnSharedService {
    * @returns {*}
    */
   getSharedCDNDomainDetails(serviceName, domainName) {
-    return this.OvhHttp.get(
+    return this.$http.get(
       `/hosting/web/${serviceName}/cdn/domain/${domainName}`,
-      {
-        rootPath: 'apiv6',
-      },
     );
   }
 
@@ -66,11 +53,8 @@ export default class HostingCdnSharedService {
    * @returns {*}
    */
   getCDNDomainsOptions(serviceName, domainName) {
-    return this.OvhHttp.get(
+    return this.$http.get(
       `/hosting/web/${serviceName}/cdn/domain/${domainName}/option`,
-      {
-        rootPath: 'apiv6',
-      },
     );
   }
 
@@ -82,12 +66,9 @@ export default class HostingCdnSharedService {
    * @returns {*}
    */
   addNewOptionToDomain(serviceName, domainName, data) {
-    return this.OvhHttp.post(
+    return this.$http.post(
       `/hosting/web/${serviceName}/cdn/domain/${domainName}/option`,
-      {
-        rootPath: 'apiv6',
-        data,
-      },
+      data,
     );
   }
 
@@ -99,12 +80,8 @@ export default class HostingCdnSharedService {
    * @returns {*}
    */
   resetCDNOptionToDefault(serviceName, domainName, optionName) {
-    return this.OvhHttp.delete(
+    return this.$http.delete(
       `/hosting/web/${serviceName}/cdn/domain/${domainName}/option/${optionName}`,
-      {
-        rootPath: 'apiv6',
-        data: {},
-      },
     );
   }
 
@@ -116,11 +93,8 @@ export default class HostingCdnSharedService {
    * @returns {*}
    */
   getCDNDomainOptionDetails(serviceName, domainName, optionName) {
-    return this.OvhHttp.get(
+    return this.$http.get(
       `/hosting/web/${serviceName}/cdn/domain/${domainName}/option/${optionName}`,
-      {
-        rootPath: 'apiv6',
-      },
     );
   }
 
@@ -133,12 +107,9 @@ export default class HostingCdnSharedService {
    * @returns {*}
    */
   updateCDNDomainOption(serviceName, domainName, optionName, data) {
-    return this.OvhHttp.put(
+    return this.$http.put(
       `/hosting/web/${serviceName}/cdn/domain/${domainName}/option/${optionName}`,
-      {
-        rootPath: 'apiv6',
-        data,
-      },
+      data,
     );
   }
 
@@ -174,12 +145,8 @@ export default class HostingCdnSharedService {
    * @returns {*}
    */
   refreshCDNDomain(serviceName, domainName) {
-    return this.OvhHttp.post(
+    return this.$http.post(
       `/hosting/web/${serviceName}/cdn/domain/${domainName}/refresh`,
-      {
-        rootPath: 'apiv6',
-        data: {},
-      },
     );
   }
 
@@ -189,9 +156,7 @@ export default class HostingCdnSharedService {
    * @returns {*}
    */
   getCDNServiceOperations(serviceName) {
-    return this.OvhHttp.get(`/hosting/web/${serviceName}/cdn/operation`, {
-      rootPath: 'apiv6',
-    });
+    return this.$http.get(`/hosting/web/${serviceName}/cdn/operation`);
   }
 
   /**
@@ -201,9 +166,7 @@ export default class HostingCdnSharedService {
    * @returns {*}
    */
   getSharedCDNServiceOperationDetails(serviceName, id) {
-    return this.OvhHttp.get(`/hosting/web/${serviceName}/cdn/operation/${id}`, {
-      rootPath: 'apiv6',
-    });
+    return this.$http.get(`/hosting/web/${serviceName}/cdn/operation/${id}`);
   }
 
   /**
@@ -212,11 +175,8 @@ export default class HostingCdnSharedService {
    * @param {string} domain
    */
   enableDisableCDNDomain(serviceName, domain) {
-    return this.OvhHttp.put(
+    return this.$http.put(
       `/hosting/web/${serviceName}/attachedDomain/${domain}`,
-      {
-        rootPath: 'apiv6',
-      },
     );
   }
 
@@ -226,9 +186,7 @@ export default class HostingCdnSharedService {
    * @returns {*}: promise
    */
   getServiceInfo(serviceName) {
-    return this.OvhHttp.get(`/hosting/web/${serviceName}/serviceInfos`, {
-      rootPath: 'apiv6',
-    });
+    return this.$http.get(`/hosting/web/${serviceName}/serviceInfos`);
   }
 
   /**
@@ -237,9 +195,7 @@ export default class HostingCdnSharedService {
    * @returns {*}: promise
    */
   getServiceOptions(serviceInfoId) {
-    return this.OvhHttp.get(`/services/${serviceInfoId}/options`, {
-      rootPath: 'apiv6',
-    });
+    return this.$http.get(`/services/${serviceInfoId}/options`);
   }
 
   /**
@@ -248,9 +204,7 @@ export default class HostingCdnSharedService {
    * @returns {*}: promise
    */
   getCatalogAddonsPlan(serviceOptionsId) {
-    return this.OvhHttp.get(`/services/${serviceOptionsId}/upgrade`, {
-      rootPath: 'apiv6',
-    });
+    return this.$http.get(`/services/${serviceOptionsId}/upgrade`);
   }
 
   /**
@@ -261,15 +215,12 @@ export default class HostingCdnSharedService {
    * @returns {*}: promise
    */
   simulateUpgradeToSharedCDN(serviceId, planCode, price) {
-    return this.OvhHttp.post(
+    return this.$http.post(
       `/services/${serviceId}/upgrade/${planCode}/simulate`,
       {
-        rootPath: 'apiv6',
-        data: {
-          duration: price.duration,
-          pricingMode: price.pricingMode,
-          quantity: price.minimumQuantity,
-        },
+        duration: price.duration,
+        pricingMode: price.pricingMode,
+        quantity: price.minimumQuantity,
       },
     );
   }
@@ -289,16 +240,13 @@ export default class HostingCdnSharedService {
     const price = find(serviceOption.prices, ({ capacities }) =>
       includes(capacities, 'renew'),
     );
-    return this.OvhHttp.post(
+    return this.$http.post(
       `/services/${serviceId}/upgrade/${serviceOption.planCode}/execute`,
       {
-        rootPath: 'apiv6',
-        data: {
-          autoPayWithPreferredPaymentMethod,
-          duration: price.duration,
-          pricingMode: price.pricingMode,
-          quantity: price.minimumQuantity,
-        },
+        autoPayWithPreferredPaymentMethod,
+        duration: price.duration,
+        pricingMode: price.pricingMode,
+        quantity: price.minimumQuantity,
       },
     );
   }
