@@ -252,7 +252,7 @@ angular
         }
 
         const HPC_STATES = ['app.dedicatedClouds', 'app.hpc'];
-        const IGNORE_STATES = ['app.configuration'];
+        const IGNORE_STATES = ['app.configuration', 'app.ip', 'vrack'];
 
         const stateIncludes = Object.keys(transition.$to().includes);
 

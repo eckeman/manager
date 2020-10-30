@@ -158,6 +158,7 @@ export const IP_CONFIG = {
   icon: 'ovh-font ovh-font-ip',
   app: [DEDICATED],
   regions: ['EU', 'CA', 'US'],
+  namespace: [undefined, HPC_NAMESPACE],
 };
 
 export const IAAS_CONFIG = {
@@ -285,6 +286,7 @@ export const DEDICATED_NETWORK_CONFIG = {
   forceDisplaySearch: true,
   app: [DEDICATED],
   regions: ['EU', 'CA', 'US'],
+  namespace: [undefined, HPC_NAMESPACE],
   icon: 'oui-icon oui-icon-bandwidth_concept',
   loadOnState: ['vrack', 'cloud-connect'],
   children: [
@@ -302,6 +304,7 @@ export const DEDICATED_NETWORK_CONFIG = {
       icon: 'ovh-font ovh-font-vRack',
       app: [DEDICATED],
       regions: ['EU', 'CA', 'US'],
+      namespace: [undefined, HPC_NAMESPACE],
     },
     {
       id: 'cloud_connect',
@@ -318,6 +321,7 @@ export const DEDICATED_NETWORK_CONFIG = {
       ],
       icon: 'oui-icon oui-icon-line-communicating_concept',
       app: [DEDICATED],
+      namespace: [undefined],
     },
   ],
 };

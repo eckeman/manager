@@ -245,6 +245,24 @@ export default class OvhManagerServerSidebarController {
           link = get(this.CORE_MANAGER_URLS, camelCase(service.app[0]));
           link += service.stateUrl;
         }
+        console.log('addItems', {
+          id: service.id,
+          name: service.id,
+          icon: service.icon,
+          title: this.$translate.instant(
+            `server_sidebar_item_${service.id}_title`,
+          ),
+          allowSubItems: hasSubItems,
+          allowSearch: hasSubItems,
+          forceDisplaySearch: hasSubItems && get(service, 'forceDisplaySearch'),
+          infiniteScroll: hasSubItems,
+          state: isExternal ? null : get(service, 'state'),
+          loadOnState: get(service, 'loadOnState'),
+          url: link,
+          target: link ? '_self' : null,
+          click: () => this.onClick(),
+          namespace: service.namespace,
+        });
         const menuItem = this.SidebarMenu.addMenuItem(
           {
             id: service.id,
